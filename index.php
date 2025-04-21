@@ -52,15 +52,15 @@ echo "Modulus: " . ($a % $b) . "<br>";
 echo "Exponent: " . ($a ** $b) . "<br>";
 echo "<br>"
 ?>
+<!--
 
-<!-- index.html -->
 <form action="process.php" method="GET">
     <h3>Send</h3>
   <input type="text" name="username1" placeholder="Enter username">
   <button type="submit">Send</button>
 </form>
 <br>
-<!-- index.html -->
+
 <form action="process.php" method="POST">
     <h3>Login</h3>
   <input type="text" name="username2" placeholder="Enter username">
@@ -76,6 +76,8 @@ echo "<br>"
   <input type="password" name="password3" placeholder="Enter password">
   <button type="submit">Register</button>
 </form>
+
+-->
 
 <?php
 /*
@@ -391,6 +393,77 @@ echo "<br>";
 
 <?php
 
+echo "👣 Script: " . $_SERVER['PHP_SELF'] . "<br>";
+echo "📍 Server Name: " . $_SERVER['SERVER_NAME'] . "<br>";
+echo "🌐 Host: " . $_SERVER['HTTP_HOST'] . "<br>";
+echo "🛰️ IP Address: " . $_SERVER['REMOTE_ADDR'] . "<br>";
+echo "💻 User Agent: " . $_SERVER['HTTP_USER_AGENT'] . "<br>";
+echo "🚀 Request Method: " . $_SERVER['REQUEST_METHOD'] . "<br>";
+
+
+// $hello = "Hello world";
+// $foo = "hello";
+
+// echo "<br>";
+// echo $$foo;
+
+$password = "supersecret123";
+$hash = password_hash($password, PASSWORD_DEFAULT);
+
+echo $hash;
+
+$inputPassword = "supersecret123";
+if (password_verify($inputPassword, $hash)) {
+    echo "<br>✅ Access granted<br>";
+} else {
+    echo "<br>❌ Invalid password<br>";
+}
+
+
+$password = "agent007";
+$hash = password_hash($password, PASSWORD_DEFAULT);
+
+echo $hash;
+
+$input = "agent007";
+
+if(password_verify($input, $hash)) {
+    echo "<br>Access Granted<br>";
+} else {
+    echo "<br>Access Denied<br>";
+}
 
 
 ?>
+
+
+<?php
+
+// $host = "localhost";
+// $username = "root";
+// $password = "sql1234";
+// $db = "agents_db";
+
+// $conn = mysqli_connect($host, $username, $password, $db);
+
+// if (!$conn) {
+//     die("❌ Connection failed: " . mysqli_connect_error());
+// }
+
+// echo "<br>✅ Connected to MySQL database!<br><br>";
+
+?>
+
+
+<form action="process.php" method="POST">
+    <label>Username: </label><br>
+    <input type="text" name="username"><br>
+
+    <label>email: </label><br>
+    <input type="text" name="email"><br>
+
+    <label>Password: </label><br>
+    <input type="password" name="password"><br>
+    <input type="submit" value="Register Agent">
+    <br>
+</form>

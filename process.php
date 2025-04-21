@@ -77,5 +77,38 @@ if (filter_var($cleanEmail, FILTER_VALIDATE_EMAIL) && $validAge !== false && $va
     echo "❌ Invalid input detected.";
 }
 
+?>
+
+
+<!-- SQL connection -->
+<?php
+
+$host = "localhost";
+$username = "root";
+$password = "sql1234";
+$db = "agents_db";
+
+$conn = mysqli_connect($host, $username, $password, $db);
+
+if (!$conn) {
+    die("❌ Connection failed: " . mysqli_connect_error());
+}
+
+echo "<br>✅ Connected to MySQL database!<br>";
+
+$username = $_POST["username"];
+$email = $_POST["email"];
+$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+
+$stmt = $conn->prepare("INSERT INTO agents (username, email, password) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $username, $email, $password);
+
+if ($stmt->execute()) {
+    echo "<br>✅ Agent registered successfully<br>";
+} else {
+    echo "<br>❌ Registration failed<br>";
+}
 
 ?>
+
+
