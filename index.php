@@ -467,3 +467,37 @@ if(password_verify($input, $hash)) {
     <input type="submit" value="Register Agent">
     <br>
 </form>
+
+
+<?php
+$conn = mysqli_connect("localhost", "root", "sql1234", "agents_db");
+
+if (!$conn) {
+    die("❌ Connection failed: " . mysqli_connect_error());
+}
+
+$sql = "SELECT username, email FROM agents";
+$result = mysqli_query($conn, $sql);
+
+$agents = [];
+
+if (mysqli_num_rows($result) > 0) {
+    while ($row = mysqli_fetch_assoc($result)) {
+        $agents[] = $row;
+
+        echo "👤 Username: " . htmlspecialchars($row["username"]) . "<br>";
+        echo "📧 Email: " . htmlspecialchars($row["email"]) . "<hr>";
+    }
+} else {
+    echo "📭 No agents found.";
+}
+?>
+<table border="1">
+  <tr><th>Username</th><th>Email</th></tr>
+  <?php foreach ($agents as $row): ?>
+  <tr>
+    <td><?= htmlspecialchars($row['username']) ?></td>
+    <td><?= htmlspecialchars($row['email']) ?></td>
+  </tr>
+  <?php endforeach; ?>
+</table>
