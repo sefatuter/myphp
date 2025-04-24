@@ -1,7 +1,7 @@
 <?php
 # . = ->
 
-// pdo_connect.php
+// _pdo_connect.php
 $host = "localhost";
 $dbname = "agents_db";
 $username = "root";

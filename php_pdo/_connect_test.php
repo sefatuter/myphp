@@ -31,7 +31,7 @@ try {
     echo "<br><br>";
     foreach ($agents as $agent) {
         echo "🆔 " . $agent['id'] . "<br>";
-        echo "👤 " . $agent['username'] . "<br>";
+        echo "👤 " . htmlspecialchars($agent['username']) . "<br>";
         echo "📧 " . $agent['email'] . "<hr>";
     }
 
@@ -61,11 +61,94 @@ try {
     $stmt = $conn->prepare("DELETE FROM agents WHERE id = ?");
     $stmt->execute([$id]);
 
-    echo "<br>🗑️ Agent deleted";
+    echo "🗑️ Agent deleted<br>";
 
 } catch (PDOException $e) {
     die("❌ Delete failed: " . $e->getMessage());
 }
+echo "<hr>fetch<br>";
+// fetch() vs fetchAll() — Know the Difference
+// Method	Purpose	Use Case
+// fetch()	Get 1 row at a time	When expecting a single result
+// fetchAll()	Get all rows in an array	For listing multiple results
+
+// Fetch
+$stmt = $conn->prepare("SELECT * FROM agents WHERE id = :id");
+$stmt->execute([':id' => 41]);
+
+$agent = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($agent) {
+    echo "👤 " . htmlspecialchars($agent["username"]) . "<br>";
+    echo "📧 " . htmlspecialchars($agent["email"]);
+} else {
+    echo "❌ Agent not found.";
+}
+echo "<hr>fetchAll<br>";
+// FetchAll
+$stmt = $conn->query("SELECT username, email FROM agents");
+$agents = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($agents as $agent) {
+    echo "👤 " . htmlspecialchars($agent["username"]) . "<br>";
+}
+echo "<hr>fetchObject<br>";
+// FetchObject
+$stmt = $conn->query("SELECT * FROM agents");
+while ($agent = $stmt->fetch(PDO::FETCH_OBJ)) {
+    echo "👤 {$agent->username} — 📧 {$agent->email}<br>";
+}
 
 ?>
 
+<?php
+//Challenge
+echo "<br>Challenge<br>";
+$stmt = $conn->prepare("SELECT username, email FROM agents WHERE id = :id");
+$stmt->execute([':id' => 13]);
+
+while($ids_names = $stmt->fetch(PDO::FETCH_OBJ)) {
+    echo "👤 " . htmlspecialchars($ids_names->username) . "<br>";
+    echo "📧 " . htmlspecialchars($ids_names->email);
+}
+
+?>
+
+<?php
+echo "<hr>";
+// 1. bindParam() — binds by reference
+
+$email = "asdq@gmail.com";
+$stmt = $conn->prepare("SELECT * FROM agents WHERE email = :email");
+$stmt->bindParam(":email", $email);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_OBJ);
+echo $result->username . "<br>";
+
+
+// 2. bindValue() — binds by value (frozen at time of binding)
+
+$stmt = $conn->prepare("SELECT * FROM agents WHERE id = :id");
+$stmt->bindValue(":id", 41);
+$stmt->execute();
+$result = $stmt->fetch(PDO::FETCH_OBJ);
+echo $result->username . "<br>";
+
+
+// 3. execute(array) — preferred shorthand
+// $stmt = $conn->prepare("INSERT INTO agents (username, email, password) VALUES (:u, :e, :p)");
+// $stmt->execute([
+//     ':u' => 'cyberwolf',
+//     ':e' => 'cyber@agency.com',
+//     ':p' => password_hash("securepass", PASSWORD_DEFAULT)
+// ]);
+// $result = $stmt->fetch(PDO::FETCH_OBJ);
+// echo $result->username . "<br>";
+
+?>
+
+<?php
+
+
+
+?>
