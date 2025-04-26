@@ -1,5 +1,6 @@
 <?php
 
+// CLASS AND CONSTRUCTOR
 class Agent {
     public $codename;
 
@@ -21,6 +22,7 @@ $agent = new Agent("Sefa");
 $agent->identify(); // 🕶️ Agent: Sefa
 $agent->hello();
 echo "<br>";
+
 // Challenge
 class Mission {
     public $name;
@@ -57,4 +59,56 @@ echo $mission->name . "<br>";
 // protected	Inside this class and subclasses    👪 Inheritance-safe (OOP family access)
 
 
+// ENCAPSULATION
+
+class Spy {
+    private $alias;
+
+    public function setAlias($alias) {
+        if (strlen($alias) >= 3) {
+            $this->alias = $alias;
+        } else {
+            echo "❌ Alias too short!";
+        }
+    }
+
+    public function getAlias() {
+        return $this->alias;
+    }
+}
+echo "<br>";
+
+$spy = new Spy();
+$spy->setAlias("nicea");
+
+echo "🧑‍✈️ Alias: " . $spy->getAlias() . "<br>";
+// echo $spy->alias; // Without getter it's not gonna work: private property
+
+//challenge
+
+class Intel {
+    private $code, $target;
+
+    public function setIntel($code, $target) {
+        if (strlen($code) == 6 && !empty($target)) {
+            $this->code = $code;
+            $this->target = $target;
+        } else {
+            echo "<br> Error setting.<br>";
+        }
+    }
+
+    public function getIntel() {
+        $msg = "<br>📡 Code: " . $this->code  . " | 🎯 Target: " . $this->target . "<br>";
+        echo $msg;
+    }
+}
+
+$intel = new Intel();
+$intel->setIntel("ABC123", "RedZone");
+
+$intel->getIntel();
+
+
+// INHERITANCE
 
