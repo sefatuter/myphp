@@ -11,12 +11,11 @@
 <body>
 
 <?php if (!empty($_SESSION['flash'])): ?>
-    <p style="color: red; font-weight: bold;">
+    <p style="color: darkslategray; font-weight: bold;">
         <?= htmlspecialchars($_SESSION['flash']) ?>
     </p>
     <?php 
     unset($_SESSION['flash']); 
-    session_destroy();
     ?>
 <?php endif; ?>
 

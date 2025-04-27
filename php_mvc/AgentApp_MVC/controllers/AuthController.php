@@ -39,6 +39,7 @@ class AuthController {
                 session_regenerate_id(true);
                 $_SESSION['username'] = $auth['username'];
                 $_SESSION['user_id'] = $auth['id'];
+                $_SESSION['flash'] = "👋 Welcome, Agent {$auth['username']}";
                 header("Location: ?page=dashboard");
                 exit;
             }
@@ -59,9 +60,14 @@ class AuthController {
                 echo "❌ Invalid input. Please check your data.";
                 exit;
             } else {
-                $this->user->register($username, $email, $password);
-                header("Location: ?page=login");
-                exit;
+                $registered = $this->user->register($username, $email, $password);
+                if ($registered) {
+                    $_SESSION['flash'] = "✅ Registered successfully! Please login.";
+                    header("Location: ?page=login");
+                    exit;
+                } else {
+                    $error = "❌ Registration failed (email may already exist).";
+                }
             }
         }
 
