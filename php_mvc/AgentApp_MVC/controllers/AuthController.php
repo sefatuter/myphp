@@ -1,5 +1,6 @@
 <?php
 require_once 'models/User.php';
+require_once 'core/Middleware.php';
 
 class AuthController {
     private $conn;
@@ -12,6 +13,19 @@ class AuthController {
 
     public function login() {
         $error = null;
+
+        Middleware::guestGuard(); 
+        /*
+            🧠 Static Method = No Instantiation Needed
+            Normally to call a method, you'd do:
+
+            $mw = new Middleware();
+            $mw->guestGuard();
+            But since guestGuard() is defined as static, you can directly call:
+
+            Middleware::guestGuard();
+        */
+        
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -55,6 +69,9 @@ class AuthController {
     }
 
     public function dashboard() {
+        
+        Middleware::authGuard(); // Only logged users allowed
+        
         if (!isset($_SESSION['user_id'])) {
             header("Location: ?page=login");
             exit;
@@ -66,7 +83,7 @@ class AuthController {
 
     public function logout() {
         session_unset();
-        session_destroy();
+        $_SESSION['flash'] = "You have logged out successfully.";
         header("Location: ?page=login");
         exit;
     }

@@ -1,3 +1,5 @@
+<?php require 'views/layouts/header.php'; ?>
+
 <?php if ($error): ?>
     <p style="color:red"><?= htmlspecialchars($error) ?></p>
 <?php endif; ?>
@@ -10,4 +12,4 @@
 </form>
 <a href="?page=register">Create account</a>
 
-
+<?php require 'views/layouts/footer.php'; ?>

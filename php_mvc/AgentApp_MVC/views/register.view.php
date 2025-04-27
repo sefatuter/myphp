@@ -1,3 +1,5 @@
+<?php require 'views/layouts/header.php'; ?>
+
 <h2>🧠 Register</h2>
 <form method="POST" action="?page=register">
     <input name="username" placeholder="Username"><br>
@@ -6,3 +8,5 @@
     <button type="submit">Register</button>
 </form>
 <a href="?page=login">Back to login</a>
+
+<?php require 'views/layouts/footer.php'; ?>
