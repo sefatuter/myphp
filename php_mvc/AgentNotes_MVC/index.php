@@ -6,6 +6,9 @@ require_once 'pdo_connect.php';
 require_once 'core/Middleware.php';
 require_once 'controllers/NoteController.php';
 require_once 'models/Note.php'; // Already autoloaded indirectly but safe to have here
+require_once 'core/ErrorHandler.php';
+
+ErrorHandler::register();
 
 // Initialize NoteController
 $noteController = new NoteController($conn);
@@ -16,6 +19,7 @@ $page = $_GET['page'] ?? 'notes';
 switch ($page) {
     case 'notes':
         $noteController->index();
+        // trigger_error("🔥 Test Error!", E_USER_WARNING); // Test error
         break;
 
     case 'notes_create':

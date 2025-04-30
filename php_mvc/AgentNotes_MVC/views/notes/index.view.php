@@ -5,7 +5,9 @@
 <a href="?page=notes_create">➕ Create New Note</a>
 <hr>
 
-<?php foreach ($notes as $note): ?>
+<?php foreach ($notes as $note): 
+    // throw new Exception("🔥 Something broke!"); // Exception middleware test.
+    ?>
     <div>
         <h3><?= htmlspecialchars($note['title']) ?></h3>
         <p><?= nl2br(htmlspecialchars($note['body'])) ?></p>
