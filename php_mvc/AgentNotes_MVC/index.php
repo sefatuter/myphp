@@ -7,11 +7,13 @@ require_once 'core/Middleware.php';
 require_once 'controllers/NoteController.php';
 require_once 'models/Note.php'; // Already autoloaded indirectly but safe to have here
 require_once 'core/ErrorHandler.php';
+require_once 'controllers/UploadController.php';
 
 ErrorHandler::register();
 
 // Initialize NoteController
 $noteController = new NoteController($conn);
+$upload = new UploadController();
 
 // Basic router logic
 $page = $_GET['page'] ?? 'notes';
@@ -28,6 +30,14 @@ switch ($page) {
 
     case 'notes_edit':
         $noteController->edit();
+        break;
+    
+    case 'upload':
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $upload->handle();
+        } else {
+            $upload->showForm();
+        }
         break;
 
     case 'notes_delete':

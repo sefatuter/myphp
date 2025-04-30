@@ -6,7 +6,7 @@
 <hr>
 
 <?php foreach ($notes as $note): 
-    // throw new Exception("🔥 Something broke!"); // Exception middleware test.
+    // throw new Exception("🔥 Something broke!"); // Exception middleware
     ?>
     <div>
         <h3><?= htmlspecialchars($note['title']) ?></h3>

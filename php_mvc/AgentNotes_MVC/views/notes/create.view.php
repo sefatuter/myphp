@@ -12,6 +12,8 @@
     <button type="submit">Save</button>
 </form>
 
+<a href="?page=upload">Upload file</a>
+<br><br>
 <a href="?page=notes">← Back to Notes</a>
 
 <?php require 'views/layouts/footer.php'; ?>
