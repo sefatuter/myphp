@@ -17,3 +17,8 @@
     </p>
     <?php unset($_SESSION['flash']); ?>
 <?php endif; ?>
+
+<!-- helpers.php -->
+<?php if ($msg = flash('success')): ?>
+    <p style="color: lime"><?= e($msg) ?></p>
+<?php endif; ?>

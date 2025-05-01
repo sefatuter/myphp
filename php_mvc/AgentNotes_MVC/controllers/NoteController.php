@@ -26,6 +26,11 @@ class NoteController {
                 $this->note->create($title, $body);
                 $_SESSION['flash'] = "✅ Note created successfully.";
                 header("Location: ?page=notes");
+
+                //helper.php, flash
+                // set_flash('success', 'Note created!');
+                // redirect('?page=notes');
+
                 exit;
             } else {
                 $error = "❌ Title is required.";

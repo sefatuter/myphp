@@ -8,6 +8,7 @@ require_once 'controllers/NoteController.php';
 require_once 'models/Note.php'; // Already autoloaded indirectly but safe to have here
 require_once 'core/ErrorHandler.php';
 require_once 'controllers/UploadController.php';
+require_once 'core/helpers.php'; // comment
 
 ErrorHandler::register();
 
