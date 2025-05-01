@@ -1,6 +1,8 @@
 <?php
 require_once 'models/User.php';
 require_once 'core/Middleware.php';
+require_once 'core/RateLimiter.php'; // IP based limit
+
 
 class AuthController {
     private $conn;
@@ -25,7 +27,8 @@ class AuthController {
 
             Middleware::guestGuard();
         */
-
+        /*
+        // Check
         if (!isset($_SESSION['login_attempts'])) {
             $_SESSION['login_attempts'] = 0;
             $_SESSION['last_attempt'] = time();
@@ -41,7 +44,15 @@ class AuthController {
                 $_SESSION['login_attempts'] = 0; // Reset after wait
             }
         }
+        */
         
+        // IP based limit
+        if (RateLimiter::limit('login')) {
+            http_response_code(429);
+            echo "🚫 Too many login attempts. Try again later.";
+            exit;
+        }
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
             $password = $_POST['password'];
