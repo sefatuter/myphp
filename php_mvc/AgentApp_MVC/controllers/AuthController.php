@@ -25,6 +25,22 @@ class AuthController {
 
             Middleware::guestGuard();
         */
+
+        if (!isset($_SESSION['login_attempts'])) {
+            $_SESSION['login_attempts'] = 0;
+            $_SESSION['last_attempt'] = time();
+        }
+
+        // Too many attempts?
+        if ($_SESSION['login_attempts'] >= 5) {
+            $wait = 60 - (time() - $_SESSION['last_attempt']);
+            if ($wait > 0) {
+                echo "⏳ Too many attempts. Please wait $wait seconds.";
+                return;
+            } else {
+                $_SESSION['login_attempts'] = 0; // Reset after wait
+            }
+        }
         
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'];
@@ -40,8 +56,12 @@ class AuthController {
                 $_SESSION['username'] = $auth['username'];
                 $_SESSION['user_id'] = $auth['id'];
                 $_SESSION['flash'] = "👋 Welcome, Agent {$auth['username']}";
+                $_SESSION['login_attempts'] = 0;
                 header("Location: ?page=dashboard");
                 exit;
+            }else {
+                $_SESSION['login_attempts']++;
+                $_SESSION['last_attempt'] = time();
             }
             $error = "❌ Login failed.";
         }
