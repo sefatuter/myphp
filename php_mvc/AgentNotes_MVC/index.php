@@ -15,7 +15,11 @@ ErrorHandler::register();
 // Initialize NoteController
 $noteController = new NoteController($conn);
 $upload = new UploadController();
+$internal_error = false;
 
+require_once 'views/errors/500.view.php';
+
+// throw new Exception("Boom!"); // Exception for 500.view.php
 // Basic router logic
 $page = $_GET['page'] ?? 'notes';
 
