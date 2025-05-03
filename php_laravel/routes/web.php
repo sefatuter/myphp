@@ -12,6 +12,8 @@ php artisan help	                        Lists all available commands
 */
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PostController;
+use App\Http\Controllers\PageController;
 
 Route::get('/welcome', function () {
     return view('welcome'); // means show welcome.blade.php if someone visits http://localhost:8000/ 
@@ -23,7 +25,9 @@ Route::get('/', function () {
     ";
 });
 
-Route::get('/about', [App\Http\Controllers\PageController::class, 'about']); // php artisan make:controller PageController
+Route::get('/about', [PageController::class, 'about']); // php artisan make:controller PageController
+// instead of Route::get('/about', [App\Http\Controllers\PageController::class, 'about']); use this ^
+
 /*
 it tells Laravel:
 
@@ -44,3 +48,5 @@ It creates an instance of PageController and calls the about() method.
 Whatever the method returns (typically a view), gets shown in the browser.
 */
 
+Route::get('/posts/create', [PostController::class, 'create']);
+Route::post('/posts', [PostController::class, 'store']);

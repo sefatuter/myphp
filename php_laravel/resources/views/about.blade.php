@@ -9,6 +9,6 @@
     <hr>
         <p>LARAVEL</p>
     <h1>Hello, {{ $name }}</h1>
-
+    <a href="/posts/create">Create Post</a>
 </body>
 </html>
